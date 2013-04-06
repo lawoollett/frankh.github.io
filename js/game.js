@@ -96,7 +96,7 @@ var _resize = function() {
 	resize_paths();
 	position_message();
 };
-
+ 
 var SOCKET;
 
 $(window).load(function() {
