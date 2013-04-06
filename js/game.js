@@ -105,10 +105,7 @@ $(window).load(function() {
 		return;
 	}
 
-	var sockaddr = document.domain;
-	if( document.domain == 'localhost' ) {
-		sockaddr += ':8080';
-	}
+	var sockaddr = 'shawabawa.com';
 
 	SOCKET = new WebSocket("ws://"+sockaddr+"/socket/temp/1");
 
