@@ -1,0 +1,128 @@
+@import "shared.less";
+
+.hex_text {
+	width: 0px;
+	height: 0px;
+	position: relative;
+
+	font-weight: bold;
+	font-family: verdana;
+}
+
+.vertex {
+    position: absolute;
+    z-index: 100;
+}
+
+.vertex_text {
+    width: 100%;
+    .fit-to-margin;
+
+    font-weight: bold;
+    font-family: verdana;
+    font-size: 0.8em;
+    text-align: center;
+    background-color: white;
+    border-radius: 100%;
+
+    visibility: hidden;
+}
+
+.building {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85%;
+    height: 100%;
+}
+
+.unbuilt {
+    .vertex_text {
+        visibility: visible;
+    }
+}
+
+.high_yield {
+    color: red;
+}
+
+.hex_desert .hex_text {
+    visibility: hidden;
+}
+
+.hex_grid {
+	width: 70%;
+	height: 70%;
+
+	position: relative;
+}
+
+.hex.sea_tile .hex_in2 {
+    visibility: hidden;
+}
+
+.hex_row {
+	width: 100%;
+	height: 13.8%;
+}
+/* 787x826 */
+
+.rotate(@angle) {
+    -webkit-transform: rotate(@angle);
+       -moz-transform: rotate(@angle);
+         -o-transform: rotate(@angle);
+            transform: rotate(@angle);
+}
+
+.hex {
+	position:relative;
+    width: 200%;
+    height: 100%;
+    overflow: hidden;
+    visibility: hidden;
+    .rotate(120deg);
+}
+
+.hex_in1 {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    .rotate(-60deg)
+}
+
+.hex_in2 {
+    width: 100%;
+    height: 100%;
+    background-image: url(../res/hex-desert.bmp);
+    background-position: 50%;
+	background-repeat: no-repeat;
+	background-size: 60% 100%;
+    visibility: visible;
+    .rotate(-60deg);
+    -webkit-filter: ~"saturate(0.8)";
+    filter: ~"saturate(0.8)";
+}
+
+.hex_fields .hex_in2 {
+    background-image: url(../res/hex-fields.bmp);
+}
+
+.hex_desert .hex_in2 {
+    background-image: url(../res/hex-desert.bmp);
+}
+
+.hex_pasture .hex_in2 {
+    background-image: url(../res/hex-pasture.bmp);
+}
+
+.hex_hills .hex_in2 {
+    background-image: url(../res/hex-hills.bmp);
+}
+
+.hex_mountains .hex_in2 {
+    background-image: url(../res/hex-mountains.bmp);
+}
+
+.hex_forest .hex_in2 {
+    background-image: url(../res/hex-forest.bmp);
+}
