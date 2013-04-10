@@ -94,9 +94,10 @@ var _resize = function() {
 
 	resize_vertices();
 	resize_paths();
+	resize_ports();
 	position_message();
 };
- 
+
 var SOCKET;
 
 $(window).load(function() {
