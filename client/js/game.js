@@ -389,6 +389,12 @@ function create_board(board) {
 		create_path(path);
 	}
 
+	for( var i in board.ports ) {
+		var port = board.ports[i];
+
+		create_port(port);
+	}
+
 	update_board(board);
 }
 
