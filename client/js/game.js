@@ -94,9 +94,10 @@ var _resize = function() {
 
 	resize_vertices();
 	resize_paths();
+	resize_ports();
 	position_message();
 };
- 
+
 var SOCKET;
 
 $(window).load(function() {
@@ -197,6 +198,10 @@ $(document).ready(function() {
 
 });
 
+var get_hex = function(hex_id) {
+	return $('.hex[hex_id='+hex_id+']');
+}
+
 var get_path = function(path_id) {
 	return $('.path[path_id='+path_id+']');
 }
@@ -206,6 +211,70 @@ var get_path_id = function(path) {
 
 	return path_id;
 }
+
+function create_port(port) {
+	var $port = $('.port.template').clone();
+	$port.removeClass('template')
+		 .appendTo('.game_board')
+		 .addClass(port.port_type)
+		 .attr('port_id', port.id)
+		 .attr('path_id', port.path.id)
+		 .attr('hex_id', port.hex.id);
+
+}
+
+function resize_ports() {
+	$('.port').not('.template').each(function() {
+		var $path = get_path($(this).attr('path_id'));
+		var $hex = get_hex($(this).attr('hex_id')).find('.hex_in2');
+
+		var hp = $hex.offset();
+		var pp = $path.offset();
+
+		hp.top += $hex.height() / 2;
+		hp.left += $hex.width() / 2;
+
+		pp.top += $path.height() / 2;
+		pp.left += $path.width() / 2;
+
+		var top = (pp.top - hp.top) < -5;
+		var bottom = (pp.top - hp.top) > 5;
+		var left = (pp.left - hp.left) < -5;
+		var right = (pp.left - hp.left) > 5;
+		var hmid = !left && !right;
+		var vmid = !top && !bottom;
+
+		var my, at;
+		
+		at = 'center center'
+
+		if     ( top && left  ) {
+			my = 'right+14% bottom+25%';
+			$(this).addClass('top_left');
+		} else if( top && hmid  ) {
+			my = 'center bottom';
+			$(this).addClass('top_mid');
+		} else if( top && right ) {
+			my = 'left-14% bottom+25%';
+			$(this).addClass('top_right');
+		} else if( bottom && left ) {
+			my = 'right+14% top-25%';
+			$(this).addClass('bottom_left');
+		} else if( bottom && hmid ) {
+			my = 'center top';
+			$(this).addClass('bottom_mid');
+		} else if( bottom && right ) {
+			my = 'left-14% top-25%';
+			$(this).addClass('bottom_right');
+		}
+
+		$(this).position({
+			my: my,
+			at: at,
+			of: $path,
+		});
+	});
+};
 
 function create_path(path) {
 	var path_id = path.id;
@@ -321,10 +390,26 @@ function create_board(board) {
 		create_path(path);
 	}
 
+	for( var i in board.ports ) {
+		var port = board.ports[i];
+
+		create_port(port);
+	}
+
 	update_board(board);
 }
 
 function update_board(board) {
+	$('.being_robbed').removeClass('being_robbed');
+	for( var i in board.hexes ) {
+		var hex = board.hexes[i];
+		var $hex = $('.hex[hex_id='+hex.id+']');
+
+		if( hex.being_robbed ) {
+			$hex.addClass('being_robbed');
+		}
+	}
+
 	for( var i in board.vertices ) {
 		var vert = board.vertices[i];
 		var $vert = get_vertex(vert.id);
